@@ -68,26 +68,33 @@ for outlink in outlinks:
         results['Condos Minimum'] = 0
         results['Condos Maximum'] = 0
         #print(data)
+        found = False
         for element in data:
             #print(element)
             if 'golf' in element[0].lower() and 'initiation' in element[0].lower():
                 results['Golf Initiation Fee'] = element[1]
+                found = True
             elif 'annual' in element[0].lower() and 'golf' in element[0].lower() and 'dues' in element[0].lower():
                 results['Annual Golf Dues'] = element[1]
+                found = True
             elif 'single' in element[0].lower() and 'family' in element[0].lower():
                 if 'no' not in element[1].lower():
                     results['SFH Minimum'] = element[1].split(' ')[0]
                     results['SFH Maximum'] = element[1].split(' ')[-1]
+                found = True
             elif 'condos' in element[0].lower():
                 if 'no' not in element[1].lower():
                     results['Condos Minimum'] = element[1].split(' ')[0]
                     results['Condos Maximum'] = element[1].split(' ')[-1]
+                found = True
             elif 'fee' in element[0].lower():
                 results['Other Fee'] = element[1]
+                found = True
             elif 'dues' in element[0].lower():
                 results['Other Dues'] = element[1]
+                found = True
         #print(results)
-        if results['Annual Golf Dues'] == 0:
+        if not found:
             print ('Skipping URL: '+url_to_scrape)
             continue
         all_results.append(results)
